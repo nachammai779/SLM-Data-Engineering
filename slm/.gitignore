@@ -1,5 +1,5 @@
 .venv/
-data/*.bin
+data/
 runs/
 __pycache__/
 *.pyc

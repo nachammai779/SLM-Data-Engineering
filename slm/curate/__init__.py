@@ -1,0 +1,1 @@
+"""Corpus curation: stream → filter → mix → write per PLAN.md §1 ratios."""

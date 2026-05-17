@@ -48,6 +48,28 @@ def smoke_config() -> TrainConfig:
     return TrainConfig()
 
 
+def real_config() -> TrainConfig:
+    """Sandbox preset for the curated multi-source corpus."""
+    return TrainConfig(
+        corpus_dir="slm/data/curated",
+        data_dir="slm/data/real",
+        out_dir="slm/runs/real",
+        tokenizer_path="slm/tokenizers/bpe_real.json",
+        vocab_size=4096,
+        batch_size=16,
+        block_size=128,
+        max_iters=500,
+        eval_iters=30,
+        eval_interval=100,
+        warmup_steps=50,
+        grad_accum_steps=4,
+        n_layer=4,
+        n_head=4,
+        n_embd=128,
+        dropout=0.1,
+    )
+
+
 def gpt_config(cfg: TrainConfig) -> GPTConfig:
     return GPTConfig(
         block_size=cfg.block_size,

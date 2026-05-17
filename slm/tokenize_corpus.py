@@ -2,7 +2,7 @@
 from pathlib import Path
 import numpy as np
 
-from slm.config import TrainConfig, smoke_config
+from slm.config import TrainConfig, smoke_config, real_config
 from slm.tokenizer import build_tokenizer
 
 
@@ -59,4 +59,6 @@ def tokenize(cfg: TrainConfig) -> None:
 
 
 if __name__ == "__main__":
-    tokenize(smoke_config())
+    import sys
+    cfg = real_config() if "--real" in sys.argv else smoke_config()
+    tokenize(cfg)

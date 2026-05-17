@@ -15,7 +15,7 @@ from tokenizers.pre_tokenizers import Sequence, Split, ByteLevel
 from tokenizers.decoders import ByteLevel as ByteLevelDecoder
 from tokenizers.trainers import BpeTrainer
 
-from slm.config import TrainConfig, smoke_config
+from slm.config import TrainConfig, smoke_config, real_config
 
 
 # Strict split rule: each digit standalone, every non-alphanumeric char isolated,
@@ -91,8 +91,11 @@ def smoke_demo(tok: Tokenizer) -> None:
 
 
 if __name__ == "__main__":
-    cfg = smoke_config()
-    # Toy corpus is ~18 KB → ~1024 vocab is proportional. Bump to 16k–24k for real corpus.
-    out = Path("slm/tokenizers/bpe_smoke.json")
-    tok = train(cfg, vocab_size=1024, out_path=out)
+    import sys
+    if "--real" in sys.argv:
+        cfg = real_config()
+        tok = train(cfg, vocab_size=cfg.vocab_size, out_path=Path(cfg.tokenizer_path))
+    else:
+        cfg = smoke_config()
+        tok = train(cfg, vocab_size=cfg.vocab_size, out_path=Path(cfg.tokenizer_path))
     smoke_demo(tok)

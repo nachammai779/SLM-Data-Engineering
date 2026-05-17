@@ -5,7 +5,7 @@ import time
 import torch
 from torch.optim.lr_scheduler import LinearLR, SequentialLR, CosineAnnealingLR
 
-from slm.config import TrainConfig, gpt_config, smoke_config
+from slm.config import TrainConfig, gpt_config, smoke_config, real_config
 from slm.data import get_batch
 from slm.model import GPT
 
@@ -85,4 +85,6 @@ def train(cfg: TrainConfig) -> GPT:
 
 
 if __name__ == "__main__":
-    train(smoke_config())
+    import sys
+    cfg = real_config() if "--real" in sys.argv else smoke_config()
+    train(cfg)
