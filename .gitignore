@@ -1,0 +1,12 @@
+.idea/
+.claude/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Separate project with its own git repo
+discovery-to-deployment/
+
+# PyCharm boilerplate stub
+main.py
