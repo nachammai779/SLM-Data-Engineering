@@ -13,14 +13,15 @@ from slm.curate.sources import (
 OUT_DIR = Path("slm/data/curated")
 SEP = "\n\n<|endoftext|>\n\n"
 
-# First-pass sandbox budgets — see PLAN.md §1 ratios.
-# Total raw text target: ~30-50MB, well under the 2GB cache budget.
+# Scale-up budgets — target ~60M BPE tokens (~140MB raw at ~2.3 chars/token).
+# Ratios approximate PLAN.md §1: 35% code, 25% cloud, 25% docs, 15% instruction.
+# Cloud is hard to fill from broad GitHub (low import density); accept under-budget.
 BUDGETS = {
-    "code":       1000,   # codeparrot Python (35%)
-    "cloud":       500,   # codeparrot Python filtered for boto3/google.cloud (25%)
-    "sql":         800,   # b-mc2/sql-create-context (compact rows; lifts SQL coverage)
-    "cosmopedia":  500,   # cosmopedia-v2 DE-keyword filter (25%)
-    "openhermes":  300,   # OpenHermes 2.5 DE-keyword filter (15%)
+    "code":        8000,   # codeparrot Python (~85MB)
+    "cloud":       2000,   # codeparrot filtered for boto3/google.cloud (realistic ~600 docs)
+    "sql":         8000,   # b-mc2/sql-create-context (compact)
+    "cosmopedia": 12000,   # cosmopedia-v2 DE-keyword filter (~40MB)
+    "openhermes":  4000,   # OpenHermes 2.5 DE-keyword filter (~12MB)
 }
 
 

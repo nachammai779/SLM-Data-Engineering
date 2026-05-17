@@ -55,7 +55,7 @@ def real_config() -> TrainConfig:
         data_dir="slm/data/real",
         out_dir="slm/runs/real",
         tokenizer_path="slm/tokenizers/bpe_real.json",
-        vocab_size=4096,
+        vocab_size=8192,
         batch_size=16,
         block_size=128,
         max_iters=500,

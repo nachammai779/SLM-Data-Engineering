@@ -18,7 +18,7 @@ def iter_code_python(limit: int) -> Iterator[str]:
             n += 1
 
 
-def iter_code_cloud(limit: int, scan_cap: int = 50_000) -> Iterator[str]:
+def iter_code_cloud(limit: int, scan_cap: int = 400_000) -> Iterator[str]:
     """Python files importing boto3 or google.cloud. Scans up to scan_cap docs."""
     ds = load_dataset("codeparrot/codeparrot-clean", streaming=True, split="train")
     n = 0
@@ -47,7 +47,7 @@ def iter_sql(limit: int) -> Iterator[str]:
         n += 1
 
 
-def iter_cosmopedia_de(limit: int, scan_cap: int = 50_000) -> Iterator[str]:
+def iter_cosmopedia_de(limit: int, scan_cap: int = 200_000) -> Iterator[str]:
     """Synthetic textbook / how-to text filtered for data-engineering relevance."""
     ds = load_dataset(
         "HuggingFaceTB/smollm-corpus", name="cosmopedia-v2",
@@ -65,7 +65,7 @@ def iter_cosmopedia_de(limit: int, scan_cap: int = 50_000) -> Iterator[str]:
             n += 1
 
 
-def iter_openhermes_de(limit: int, scan_cap: int = 30_000) -> Iterator[str]:
+def iter_openhermes_de(limit: int, scan_cap: int = 100_000) -> Iterator[str]:
     """Conversations from OpenHermes 2.5, filtered for DE relevance."""
     ds = load_dataset("teknium/OpenHermes-2.5", streaming=True, split="train")
     n = 0
