@@ -32,7 +32,7 @@ Raw data: [`losses.csv`](losses.csv) (14 evaluation points, every 200 iters).
 ### Interpretation
 
 - **The model is clearly learning.** Val loss dropped from ~4.1 to 2.28 — far below the uniform baseline of `log(16384) = 9.70`.
-- **Token-level accuracy:** Val perplexity is `exp(2.279) ≈ 9.76`, meaning the model places ~10.2% probability on the correct next token on average. Random would be 1/16384 ≈ 0.006% — about **1,700× better than chance**.
+- **Token-level accuracy:** The model's *average uncertainty per token* on held-out text is `exp(2.279) ≈ 9.76` — it's roughly as uncertain at each step as if it were choosing uniformly among about 10 tokens out of the 16,384-token vocabulary. That works out to **~10.2% probability on the correct next token on average**. Random guessing would be 1/16384 ≈ 0.006% — so this is about **1,700× better than chance**.
 - **Train–val gap is widening monotonically** (0.57 → 0.98) — the classic early-overfitting signature. With 55M params on 50M tokens we're at roughly a **1:1 token-to-parameter ratio**, ~20× under Chinchilla-optimal (20:1). The model has more capacity than the data supports and is beginning to memorize training-specific patterns.
 - **Diminishing returns set in around step ~1600.** Per-eval val drops shrank from 0.43 (step 200→400) to 0.02 (step 2600→2800). Even without the OOM crash, val loss would have plateaued around 2.1–2.2 by step 5000–6000.
 - **Training stability was excellent.** Smooth descent, no NaNs, no spikes — every architecture choice (RoPE, SwiGLU, RMSNorm, no-bias, z-loss, BF16 autocast, cosine LR) behaved as intended.
@@ -146,7 +146,7 @@ df.values = [df[df[df
 
 ## Token-level accuracy vs task-level correctness
 
-Perplexity 9.76 measures **token-level prediction accuracy on held-out text**. It does NOT translate to a percentage of generated code that runs. A 10% per-token probability is enough for plausible *shape* but not for code that compiles. Building task-level evaluations (HumanEval-Python subset, text-to-SQL with execution, SDK-compilation tests) is captured as future work in PLAN.md §5 and is the highest-leverage next investment.
+The 9.76 average-uncertainty number measures **token-level prediction accuracy on held-out text** — how good the model is at guessing the next token of real code/text it's never seen. It does NOT translate to a percentage of generated code that runs. A 10% per-token probability is enough for plausible *shape* but not for code that compiles. Building task-level evaluations (HumanEval-Python subset, text-to-SQL with execution, SDK-compilation tests) is captured as future work in PLAN.md §5 and is the highest-leverage next investment.
 
 ## Verdict
 
